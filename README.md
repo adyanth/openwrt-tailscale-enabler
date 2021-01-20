@@ -1,11 +1,11 @@
 # Tailscale on OpenWRT
 
-1. Extract the contents of root to your filesystem root using:
+1. Extract the contents of root to your filesystem root:
 ```
-tar x -zvf tailscale-enabler-<version>.tgz -C /
+tar x -zvC / -f tailscale-enabler-<version>.tgz
 ```
 
-2. Install the prerequisites for wget and tailscale using:
+2. Install the prerequisites for wget and tailscale:
 ```
 opkg update
 opkg install libustream-openssl ca-bundle kmod-tun
@@ -17,7 +17,7 @@ opkg install libustream-openssl ca-bundle kmod-tun
 tailscale up --accept-dns=false --advertise-routes=10.0.0.0/24
 ```
 
-Both of these commands download the tailscale package to get the binaries to /tmp
+Both of these commands download the tailscale package to get the binaries to /tmp.
 The /etc/init.d/tailscale will start the tailscale daemon. 
 The next command uses the tailscale CLI to configure the login and add some settings to prevent dns changes and advertise routes. Use the URL printed to login to tailscale.
 
