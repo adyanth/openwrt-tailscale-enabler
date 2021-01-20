@@ -2,7 +2,7 @@
 
 1. Extract the contents of root to your filesystem root using:
 ```
-tar x -zvf tailscale_enabler.tgz -C /
+tar x -zvf tailscale-enabler-<version>.tgz -C /
 ```
 
 2. Install the prerequisites for wget and tailscale using:
@@ -13,21 +13,20 @@ opkg install libustream-openssl ca-bundle kmod-tun
 
 3. Run tailscale for the first time:
 ```
-tailscale_enabler
 /etc/init.d/tailscale start
 tailscale up --accept-dns=false --advertise-routes=10.0.0.0/24
 ```
 
-The tailscale_enabler will download the tailscale binaries to /tmp and tailscale will start the tailscale daemon. 
-The last command uses the tailscale CLI to configure the login and add some settings to prevent dns changes and advertise routes. Use the URL printed to login to tailscale.
+Both of these commands download the tailscale package to get the binaries to /tmp
+The /etc/init.d/tailscale will start the tailscale daemon. 
+The next command uses the tailscale CLI to configure the login and add some settings to prevent dns changes and advertise routes. Use the URL printed to login to tailscale.
 
 4. Enable tailscale at boot:
 ```
-/etc/init.d/tailscale_enabler enable
 /etc/init.d/tailscale enable
 ```
 
-Verify by looking for two entries here:
+Verify by looking for an entry here:
 ```
 ls /etc/rc.d/S*tailscale*
 ```
