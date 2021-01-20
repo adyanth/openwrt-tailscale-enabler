@@ -1,0 +1,23 @@
+#!/bin/sh
+
+version='1.2.10_mips'
+
+if [ ! -f /tmp/tailscale ]; then
+    echo "Downloading Tailscale ${version} .."
+
+    echo -e "tailscale_${version}/tailscale" > /tmp/tailscale_${version}_files.txt
+
+    if [ ! -f /tmp/tailscaled ]; then
+        echo -e "tailscale_${version}/tailscaled" >> /tmp/tailscale_${version}_files.txt
+    fi
+
+    wget -O- https://pkgs.tailscale.com/stable/tailscale_${version}.tgz | tar x -zvf - -C /tmp -T /tmp/tailscale_${version}_files.txt
+
+    mv /tmp/tailscale_$version/* /tmp
+    rm -rf /tmp/tailscale_${version}*
+
+    echo "Done!"
+
+fi
+
+/tmp/tailscale "$@"
