@@ -28,5 +28,5 @@ start_service() {
 }
 
 stop_service() {
-  /usr/sbin/tailscaled --cleanup
+  /usr/bin/tailscaled --cleanup
 }
