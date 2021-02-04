@@ -1,6 +1,6 @@
 #!/bin/sh
 
-version='1.2.10_mips'
+version='1.4.2_mips'
 
 if [ ! -f /tmp/tailscale ]; then
     echo "Downloading Tailscale ${version} .."

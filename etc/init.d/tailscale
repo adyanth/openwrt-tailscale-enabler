@@ -8,7 +8,7 @@ START=99
 STOP=1
 
 start_service() {
-  procd_open_instance 
+  procd_open_instance
   procd_set_param command /usr/bin/tailscaled
 
   # Set the port to listen on for incoming VPN packets.
@@ -18,7 +18,7 @@ start_service() {
   procd_append_param command --port 41641
 
   # OpenWRT /var is a symlink to /tmp, so write persistent state elsewhere.
-  procd_append_param command --state /etc/tailscale/tailscaled.state
+  procd_append_param command --state /etc/config/tailscaled.state
 
   procd_set_param respawn
   procd_set_param stdout 1
