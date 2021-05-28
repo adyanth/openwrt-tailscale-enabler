@@ -1,6 +1,8 @@
 #!/bin/sh
 
-version='1.4.2_mips'
+endianness=`echo -n I | hexdump -o | awk '{ print substr($2,6,1)?"le":""; exit}'`
+version="1.8.5_mips"${endianness}
+
 
 if [ ! -f /tmp/tailscale ]; then
     echo "Downloading Tailscale ${version} .."
