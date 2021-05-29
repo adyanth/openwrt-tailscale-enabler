@@ -2,7 +2,7 @@
 
 1. Extract the contents of root to your filesystem root:
 ```
-tar x -zvC / -f tailscale-enabler-<version>.tgz
+tar x -zvC / -f openwrt-tailscale-enabler-<tag>.tgz
 ```
 
 2. Install the prerequisites for wget and tailscale:
