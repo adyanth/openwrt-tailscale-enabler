@@ -1,6 +1,6 @@
 #!/bin/sh
 
-endianness=`echo -n I | hexdump -o | awk '{ print substr($2,6,1)?"le":""; exit}'`
+endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1")?"le":""; exit}'`
 version="1.8.5_mips"${endianness}
 
 
