@@ -13,18 +13,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
-    - name: Generate tar archive
-      run: ./generate-tar.sh ${GITHUB_REF##*/}
     - name: Get data
       id: data
       run: |
         echo "##[set-output name=version;]v$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')"
         echo "##[set-output name=commit;]$(git rev-parse HEAD)"
+    - name: Generate tar archive
+      run: ./generate-tar.sh ${{ steps.data.outputs.version }}
     - name: List
       run: ls -alh .
     - uses: ncipollo/release-action@v1
       with:
-        artifacts: "openwrt-tailscale-enabler-*.tar.gz"
+        artifacts: "openwrt-tailscale-enabler-*.tgz"
 #         bodyFile: "body.md"
         commit: ${{ steps.data.outputs.commit }}
         tag: ${{ steps.data.outputs.version }}
