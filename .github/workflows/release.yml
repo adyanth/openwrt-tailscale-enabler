@@ -1,0 +1,33 @@
+name: Releases
+
+on: 
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - name: Get data
+      id: data
+      run: |
+        echo "##[set-output name=version;]v$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')-$(git rev-parse --short HEAD)"
+        echo "##[set-output name=commit;]$(git rev-parse HEAD)"
+    - name: Generate tar archive
+      run: ./generate-tar.sh ${{ steps.data.outputs.version }}
+    - name: List
+      run: ls -alh .
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "openwrt-tailscale-enabler-*.tgz"
+#         bodyFile: "body.md"
+        commit: ${{ steps.data.outputs.commit }}
+        tag: ${{ steps.data.outputs.version }}
+        token: ${{ secrets.GITHUB_TOKEN }}
