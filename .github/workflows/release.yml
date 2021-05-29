@@ -15,8 +15,13 @@ jobs:
     - uses: actions/checkout@v1
     - name: Generate tar archive
       run: ./generate-tar.sh ${GITHUB_REF##*/}
+    - name: Get version
+      id: version
+      run: echo "##[set-output name=version;]$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')"
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "openwrt-tailscale-enabler-*.tar.gz"
 #         bodyFile: "body.md"
+        commit: $GITHUB_SHA
+        tag: ${{ steps.version.outputs.version }}
         token: ${{ secrets.GITHUB_TOKEN }}
