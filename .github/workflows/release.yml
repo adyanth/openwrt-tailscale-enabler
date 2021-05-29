@@ -18,7 +18,7 @@ jobs:
     - name: Get data
       id: data
       run: |
-        echo "##[set-output name=version;]v$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')-$(git rev-parse --short HEAD)"
+        echo "##[set-output name=version;]v$(grep tailscale_version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')-$(git rev-parse --short HEAD)"
         echo "##[set-output name=commit;]$(git rev-parse HEAD)"
     - name: Generate tar archive
       run: ./generate-tar.sh ${{ steps.data.outputs.version }}

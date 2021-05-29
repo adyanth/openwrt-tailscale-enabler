@@ -1,7 +1,12 @@
 #!/bin/sh
 
-endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1")?"le":""; exit}'`
-version="1.8.5_mips"${endianness}
+arch=`uname -m`
+if [ "$arch" == "mips" ]; then
+    endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1") ? "le" : ""; exit }'`
+fi
+
+tailscale_version="1.8.5"
+version="${tailscale_version}_${arch}${endianness}"
 
 if [ ! -f /tmp/tailscale ]; then
     echo "Downloading Tailscale ${version} .."
