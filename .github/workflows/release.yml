@@ -22,6 +22,6 @@ jobs:
       with:
         artifacts: "openwrt-tailscale-enabler-*.tar.gz"
 #         bodyFile: "body.md"
-        commit: $GITHUB_SHA
+        commit: ${{ GITHUB_SHA }}
         tag: ${{ steps.version.outputs.version }}
         token: ${{ secrets.GITHUB_TOKEN }}
