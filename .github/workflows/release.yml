@@ -18,8 +18,10 @@ jobs:
     - name: Get data
       id: data
       run: |
-        echo "##[set-output name=version;]$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')"
+        echo "##[set-output name=version;]v$(grep version= usr/bin/tailscaled | grep -oE '[[:digit:]]+.[[:digit:]]+.[[:digit:]]+')"
         echo "##[set-output name=commit;]$(git rev-parse HEAD)"
+    - name: List
+      run: ls -alh .
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "openwrt-tailscale-enabler-*.tar.gz"
