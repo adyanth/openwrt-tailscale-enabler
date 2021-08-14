@@ -7,7 +7,7 @@ elif [ "$arch" == "armv7l" ]; then
     arch=arm
 fi
 
-tailscale_version="1.8.5"
+tailscale_version="1.12.3"
 version="${tailscale_version}_${arch}${endianness}"
 
 if [ ! -f /tmp/tailscale ]; then
