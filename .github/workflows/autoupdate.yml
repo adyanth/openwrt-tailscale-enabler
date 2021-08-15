@@ -1,0 +1,34 @@
+name: Update Check
+
+on:
+  schedule:
+    # Every sunday
+    - cron:  '0 0 * * 0'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+      with:
+        persist-credentials: false # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+        fetch-depth: 0 # otherwise, you will failed to push refs to dest repo
+    - name: Get data
+      id: data
+      run: |
+        echo "##[set-output name=branch;]${GITHUB_REF##*/}"
+    - name: Create local changes
+      run: |
+        current_version=$(grep tailscale_version= usr/bin/tailscale -m 1 | cut -d'"' -f 2)
+        latest_version=$(curl https://pkgs.tailscale.com/stable/ | grep tailscale_ -m 1 | cut -d'_' -f 2)
+        if [ "$current_version" != "$latest_version" ]; then
+          sed -i "0,/tailscale_version=.*/s//tailscale_version=\"$latest_version\"/" usr/bin/tailscale*
+        fi
+    - name: Commit & Push changes
+      uses: actions-js/push@master
+      with:
+        branch: ${{ steps.data.outputs.branch }}
+        message: "Auto Update"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
