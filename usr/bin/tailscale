@@ -6,6 +6,8 @@ if [ ! -f /tmp/tailscale ]; then
         endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1") ? "le" : ""; exit }'`
     elif [ "$arch" == "armv7l" ]; then
         arch=arm
+    elif [ "$arch" == "aarch64" ]; then
+        arch=arm64
     fi
 
     tailscale_version="1.14.0"
