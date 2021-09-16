@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -e
+
 if [ ! -f /tmp/tailscale ]; then
     arch=`uname -m`
     if [ "$arch" == "mips" ]; then
