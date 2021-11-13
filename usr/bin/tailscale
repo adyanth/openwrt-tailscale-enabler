@@ -10,6 +10,8 @@ if [ ! -f /tmp/tailscale ]; then
         arch=arm
     elif [ "$arch" == "aarch64" ]; then
         arch=arm64
+    elif [ "$arch" == "x86_64" ]; then
+        arch=amd64
     fi
 
     tailscale_version="1.16.2"
