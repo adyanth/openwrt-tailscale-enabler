@@ -4,19 +4,30 @@ set -e
 
 if [ ! -f /tmp/tailscale ]; then
     arch=`uname -m`
-    if [ "$arch" == "mips" ]; then
-        endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1") ? "le" : ""; exit }'`
-    elif [ "$arch" == "armv7l" ]; then
-        arch=arm
-    elif [ "$arch" == "aarch64" ]; then
-        arch=arm64
-    elif [ "$arch" == "x86_64" ]; then
-        arch=amd64
+    case "$arch" in
+        mips)
+            endianness=`echo -n I | hexdump -o | awk '{ print (substr($2,6,1)=="1") ? "le" : ""; exit }'`
+            ;;
+        armv7l)
+            arch=arm
+            ;;
+        aarch64)
+            arch=arm64
+            ;;
+        x86_64)
+            arch=amd64
+            ;;
+    esac
+
+    latest_version=`wget -O- https://pkgs.tailscale.com/stable/ | grep -o "tailscale_[0-9.]*_${arch}.tgz" | grep -o '[0-9.]*' | head -n 1`
+    
+    if [ -z "$latest_version" ]; then
+        echo "Error: Failed to fetch the latest Tailscale version for $arch architecture."
+        exit 1
     fi
 
-    tailscale_version="1.46.0"
-
-    latest_version=`wget -O- https://pkgs.tailscale.com/stable/ | grep tailscale_ | head -1 | cut -d'_' -f 2`
+    tailscale_version="1.46.0"  # Your desired version (fallback if fetching the latest fails)
+    
     if [ "$tailscale_version" != "$latest_version" ]; then
         tailscale_version=$latest_version
     fi
