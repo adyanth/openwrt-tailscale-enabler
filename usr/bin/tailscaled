@@ -14,7 +14,7 @@ if [ ! -f /tmp/tailscaled ]; then
         arch=amd64
     fi
 
-    tailscale_version="1.62.0"
+    tailscale_version="1.62.1"
 
     latest_version=`wget -O- https://pkgs.tailscale.com/stable/ | grep tailscale_ | head -1 | cut -d'_' -f 2`
     if [ "$tailscale_version" != "$latest_version" ]; then
