@@ -31,7 +31,7 @@ if [ ! -f /tmp/tailscale ]; then
         echo -e "tailscale_${version}/tailscaled" >> /tmp/tailscale_${version}_files.txt
     fi
 
-    wget -O- https://pkgs.tailscale.com/stable/tailscale_${version}.tgz | tar x -zvf - -C /tmp -T /tmp/tailscale_${version}_files.txt
+    wget -O- https://dl.tailscale.com/stable/tailscale_${version}.tgz | tar x -zvf - -C /tmp -T /tmp/tailscale_${version}_files.txt
 
     mv /tmp/tailscale_$version/* /tmp
     rm -rf /tmp/tailscale_${version}*
